@@ -28,7 +28,15 @@ mock:
 migrateup:
 	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
+migrateup1:
+	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+
+
 migratedown:
 	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
-.PHONY: createdb dropdb postgres migrateup migratedown test sqlc server stop start mock
+migratedown1:
+	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
+
+
+.PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 test sqlc server stop start mock
