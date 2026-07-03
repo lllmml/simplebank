@@ -21,10 +21,14 @@ test:
 
 server:
 	go run main.go
+
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/lllmml/simplebank/db/sqlc Store
+
 migrateup:
 	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 migratedown:
 	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
-.PHONY: createdb dropdb postgres migrateup migratedown test sqlc server stop start
+.PHONY: createdb dropdb postgres migrateup migratedown test sqlc server stop start mock
