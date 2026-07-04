@@ -4,7 +4,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-
 // Config stores all configuration of the application.
 // The values of the configuration are loaded from environment variables.
 type Config struct {
