@@ -1,5 +1,5 @@
 postgres:
-	docker run --name postgres18 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=314159 -d postgres:18-alpine
+	docker run --name postgres18 --network bank-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=314159 -d postgres:18-alpine
 
 stop:
 	docker stop postgres18
