@@ -40,7 +40,7 @@ func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (
 	)
 
 	if err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to create refresh token", err)
+		return nil, status.Errorf(codes.Internal, "failed to create refresh token")
 	}
 
 	mtdt := server.extractMetadata(ctx)
