@@ -38,5 +38,7 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "postgresql://root:314159@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
+# 创建新的migration 
+# migrate create -ext sql -dir db/migration -seq add_sessions
 
 .PHONY: createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 test sqlc server stop start mock
