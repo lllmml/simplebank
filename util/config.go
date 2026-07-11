@@ -9,6 +9,7 @@ import (
 // Config stores all configuration of the application.
 // The values of the configuration are loaded from environment variables.
 type Config struct {
+	Environment      string `mapstructure:"ENVIRONMENT"`
 	DBDriver      string `mapstructure:"DB_DRIVER"`
 	DBSource      string `mapstructure:"DB_SOURCE"`
 	MigrationURL      string `mapstructure:"MIGRATION_URL"`
