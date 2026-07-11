@@ -7,7 +7,7 @@ import (
 )
 // "^" 表示字符串的开头 "[]" 用来列出想要在字符串中包含的所有可能字符， "+"表示方括号内的任何字符都能出现一次或多次
 // "$"表示字符串的结尾
-// 在go语言中，使用双反斜杠后跟一个s，表示任何空格字符 \\s
+// 在go语言中，使用双反斜杠后跟一个s，表示任何空格字符 \s
 var (
 	isValidUsername = regexp.MustCompile(`^[a-z0-9_]+$`).MatchString   //是个函数
 	isValidFullName = regexp.MustCompile(`^[a-z0-9A-Z\s]+$`).MatchString  //是个函数
