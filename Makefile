@@ -39,6 +39,9 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
 db_docs:
 	dbdocs build doc/db.dbml 
 
@@ -63,4 +66,4 @@ redis:
 # 创建新的migration 
 # migrate create -ext sql -dir db/migration -seq add_sessions
 
-.PHONY: db_docs db_schema createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 test sqlc server stop start mock proto redis
+.PHONY: db_docs db_schema createdb dropdb postgres migrateup migratedown migrateup1 migratedown1 test sqlc server stop start mock proto redis new_migration
