@@ -25,6 +25,7 @@ server:
 
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/lllmml/simplebank/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/lllmml/simplebank/worker TaskDistributor
 
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
