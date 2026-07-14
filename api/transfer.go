@@ -1,19 +1,19 @@
 package api
 
 import (
-	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
 
-	"github.com/lllmml/simplebank/db/sqlc"
+	db "github.com/lllmml/simplebank/db/sqlc"
 	"github.com/lllmml/simplebank/token"
 
 	"github.com/gin-gonic/gin"
 )
 
 type transferRequest struct {
-	FromAccountID int64 `json:"from_account_id" binding:"required,min=1"`
-	ToAccountID   int64 `json:"to_account_id" binding:"required,min=1"`
+	FromAccountID int64  `json:"from_account_id" binding:"required,min=1"`
+	ToAccountID   int64  `json:"to_account_id" binding:"required,min=1"`
 	Amount        int64  `json:"amount" binding:"required,gt=0"`
 	Currency      string `json:"currency" binding:"required,currency"`
 }
@@ -45,7 +45,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 	arg := db.TransferTxParams{
 		FromAccountID: req.FromAccountID,
 		ToAccountID:   req.ToAccountID,
-		Amount:          req.Amount,
+		Amount:        req.Amount,
 	}
 	result, err := server.store.TransferTx(ctx, arg)
 	if err != nil {
@@ -56,14 +56,14 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-func (server *Server) validAccount(ctx *gin.Context,accountID int64, currency string) (db.Account, bool) {
+func (server *Server) validAccount(ctx *gin.Context, accountID int64, currency string) (db.Account, bool) {
 	account, err := server.store.GetAccount(ctx, accountID)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, db.ErrRecordNotFound) {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return account, false
 		}
-		
+
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return account, false
 	}
