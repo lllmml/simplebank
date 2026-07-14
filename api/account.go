@@ -1,12 +1,11 @@
 package api
 
 import (
-	"database/sql"
 	"errors"
 	"net/http"
 
 	"github.com/lib/pq"
-	"github.com/lllmml/simplebank/db/sqlc"
+	db "github.com/lllmml/simplebank/db/sqlc"
 	"github.com/lllmml/simplebank/token"
 
 	"github.com/gin-gonic/gin"
@@ -60,11 +59,11 @@ func (server *Server) getAccount(ctx *gin.Context) {
 
 	account, err := server.store.GetAccount(ctx, req.ID)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err,db.ErrRecordNotFound) {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
-		
+
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
@@ -93,7 +92,7 @@ func (server *Server) listAccount(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	arg := db.ListAccountsParams{
-		Owner: authPayload.Username,
+		Owner:  authPayload.Username,
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}
